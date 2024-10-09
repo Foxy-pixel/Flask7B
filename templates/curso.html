@@ -165,14 +165,14 @@
 
                     for (var x in respuesta) {
                         var registro = respuesta[x];
-                        $("#tbodyLog").append(<tr>
+                        $("#tbodyLog").append(`<tr>
                             <td>${registro.Nombre_Curso}</td>
                             <td>${registro.Telefono}</td>
                             <td>
                                 <button class="btn btn-warning btn-sm" onclick="editar(${registro.ID_Curso}, '${registro.Nombre_Curso}', '${registro.Telefono}')">Editar</button>
                                 <button class="btn btn-danger btn-sm" onclick="eliminar(${registro.ID_Curso})">Eliminar</button>
                             </td>
-                        </tr>);
+                        </tr>`);
                     }
                 });
             }
