@@ -6,129 +6,120 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cursos</title>
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
     <style>
-                body {
-            background-color: #f4f6f9;
+        body {
+            background-color: #ffcccc;
+            font-family: 'Arial', sans-serif;
         }
 
         .container {
-            background-color: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-top: 40px;
+            background-color: #ff9999;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            margin-top: 60px;
+            color: white;
         }
 
         h1 {
-            font-size: 2.2rem;
-            color: #333;
+            font-size: 2.5rem;
+            color: #660000;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .form-label {
             font-weight: bold;
-            color: #555;
+            color: #660000;
         }
 
         .form-control {
-            border-radius: 8px;
-            border-color: #ced4da;
+            border-radius: 10px;
+            border: 1px solid #ff6666;
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 20px;
         }
 
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-            border-radius: 8px;
+        .btn {
+            background-color: #cc0000;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
             width: 100%;
         }
 
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-info {
-            background-color: #17a2b8;
-            border-radius: 8px;
-            width: 100%;
-        }
-
-        .btn-info:hover {
-            background-color: #117a8b;
+        .btn:hover {
+            background-color: #990000;
         }
 
         table {
-            margin-top: 20px;
+            margin-top: 30px;
+            width: 100%;
         }
 
         th {
-            background-color: #007bff;
+            background-color: #cc0000;
             color: white;
+            padding: 15px;
+            border: none;
         }
 
-        td,
-        th {
-            padding: 12px;
-            text-align: left;
+        td {
+            background-color: #ffcccc;
+            padding: 15px;
+            border: 1px solid #ff9999;
         }
 
-        .btn-warning {
+        .btn-warning, .btn-danger {
+            background-color: #ff6666;
             border-radius: 6px;
+            color: white;
+            padding: 8px 12px;
+            margin-right: 10px;
         }
 
-        .btn-danger {
-            border-radius: 6px;
+        .btn-warning:hover, .btn-danger:hover {
+            background-color: #cc3333;
         }
 
         #searchInput {
-            border-radius: 8px;
-            margin-bottom: 10px;
+            border-radius: 10px;
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h1>Formulario de Cursos</h1>
-                <form id="frmCurso" action="/curso" method="POST">
-                    <input type="hidden" id="id_curso" name="id_curso">
-                    <div class="mb-3">
-                        <label for="nombre_curso" class="form-label">Nombre del Curso</label>
-                        <input type="text" class="form-control" id="nombre_curso" name="nombre_curso" required minlength="5" maxlength="50">
-                    </div>
-                    <div class="mb-3">
-                        <label for="telefono" class="form-label">Teléfono</label>
-                        <input type="tel" class="form-control" id="telefono" name="telefono" required minlength="10" maxlength="15">
-                    </div>
-                    <button type="submit" class="btn btn-primary" id="submitButton">Registrar Curso</button>
-                </form>
-                 <table class="table table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Nombre del Curso</th>
-                            <th>Teléfono</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbodyLog"></tbody>
-                </table>
-            </div>
+        <h1>Formulario de Cursos</h1>
+        <form id="frmCurso" action="/curso" method="POST">
+            <input type="hidden" id="id_curso" name="id_curso">
+            <label for="nombre_curso" class="form-label">Nombre del Curso</label>
+            <input type="text" class="form-control" id="nombre_curso" name="nombre_curso" required minlength="5" maxlength="50">
 
-            <!--
-            <div class="col-md-6 mt-4">
-                <h2 style="text-align: center; color: #333;">Buscar</h2>
-                <div class="mb-3">
-                    <input type="text" class="form-control" id="searchInput" placeholder="Buscar por Nombre del Curso">
-                    <button id="searchButton" class="btn btn-info mt-2">Buscar</button>
-                </div>
-            </div>
-            -->
-        </div>
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input type="tel" class="form-control" id="telefono" name="telefono" required minlength="10" maxlength="15">
+
+            <button type="submit" class="btn" id="submitButton">Registrar Curso</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre del Curso</th>
+                    <th>Teléfono</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tbodyLog"></tbody>
+        </table>
     </div>
 
     <script>
@@ -170,8 +161,8 @@
                             <td>${registro.Nombre_Curso}</td>
                             <td>${registro.Telefono}</td>
                             <td>
-                                <button class="btn btn-warning btn-sm" onclick="editar(${registro.ID_Curso}, '${registro.Nombre_Curso}', '${registro.Telefono}')">Editar</button>
-                                <button class="btn btn-danger btn-sm" onclick="eliminar(${registro.ID_Curso})">Eliminar</button>
+                                <button class="btn-warning" onclick="editar(${registro.ID_Curso}, '${registro.Nombre_Curso}', '${registro.Telefono}')">Editar</button>
+                                <button class="btn-danger" onclick="eliminar(${registro.ID_Curso})">Eliminar</button>
                             </td>
                         </tr>`);
                     }
@@ -179,11 +170,6 @@
             }
 
             buscar();
-
-            $("#searchButton").click(function () {
-                var searchTerm = $("#searchInput").val().trim();
-                buscar(searchTerm);
-            });
 
             window.eliminar = function (id) {
                 if (confirm("¿Estás seguro de que deseas eliminar este curso?")) {
@@ -206,16 +192,14 @@
 
             Pusher.logToConsole = true;
             var pusher = new Pusher('ab077c6305428af0579b', {
-            cluster: 'mt1'
+                cluster: 'mt1'
             });
 
             var channel = pusher.subscribe("registrosTiempoReal");
             channel.bind("registroTiempoReal", function (mensaje) {
-                console.log("Mensaje recibido:", mensaje);
                 buscar();
             });
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
