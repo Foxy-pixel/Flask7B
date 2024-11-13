@@ -4,16 +4,14 @@ import mysql.connector
 
 app = Flask(__name__)
 
-# Configuración de Pusher
 pusher_client = pusher.Pusher(
-    app_id="1872172",
-    key="ab077c6305428af0579b",
-    secret="a2f133d9ea7bb1f9e37e",
-    cluster="mt1",
+    app_id = "1872172",
+    key = "ab077c6305428af0579b",
+    secret = "a2f133d9ea7bb1f9e37e",
+    cluster = "mt1",
     ssl=True
 )
 
-# Conexión a la base de datos
 def get_db_connection():
     con = mysql.connector.connect(
         host="185.232.14.52",
@@ -23,12 +21,11 @@ def get_db_connection():
     )
     return con
 
-# Ruta principal
 @app.route("/")
 def index():
     return render_template("curso.html")
 
-# Ruta para crear o actualizar un curso
+# Ruta para manejar la creación y edición de cursos
 @app.route("/curso", methods=["GET", "POST"])
 def curso():
     if request.method == "POST":
@@ -55,7 +52,6 @@ def curso():
         con.commit()
         con.close()
 
-        # Emitir evento con Pusher
         pusher_client.trigger("registrosTiempoReal", "registroTiempoReal", {
             "nombre_curso": nombre_curso,
             "telefono": telefono,
@@ -64,7 +60,6 @@ def curso():
 
     return render_template("curso.html")
 
-# Ruta para buscar cursos
 @app.route("/buscar")
 def buscar():
     con = get_db_connection()
@@ -81,7 +76,6 @@ def buscar():
     registros_list = [{"ID_Curso": r[0], "Nombre_Curso": r[1], "Telefono": r[2]} for r in registros]
     return jsonify(registros_list)
 
-# Ruta para eliminar un curso
 @app.route("/eliminar_curso", methods=["POST"])
 def eliminar_curso():
     con = get_db_connection()
@@ -98,12 +92,10 @@ def eliminar_curso():
     con.commit()
     con.close()
 
-    # Emitir evento de eliminación con Pusher
     pusher_client.trigger("registrosTiempoReal", "registroEliminado", {"id": id_curso})
 
     return jsonify({"message": "Curso eliminado correctamente"})
 
-# Ruta para obtener los detalles de un curso
 @app.route("/obtener_curso", methods=["GET"])
 def obtener_curso():
     id_curso = request.args.get("id")
@@ -116,6 +108,10 @@ def obtener_curso():
     curso = cursor.fetchone()
     con.close()
     
+    return jsonify(curso)
+
+if __name__ == "__main__":
+    app.run(debug=True)
     return jsonify(curso)
 
 if __name__ == "__main__":
