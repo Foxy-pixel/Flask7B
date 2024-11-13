@@ -1,14 +1,16 @@
 from flask import Flask, render_template, request, jsonify
 import pusher
 import mysql.connector
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)  # Habilitar CORS para aceptar peticiones desde cualquier origen
 
 pusher_client = pusher.Pusher(
-    app_id = "1872172",
-    key = "ab077c6305428af0579b",
-    secret = "a2f133d9ea7bb1f9e37e",
-    cluster = "mt1",
+    app_id="1872172",
+    key="ab077c6305428af0579b",
+    secret="a2f133d9ea7bb1f9e37e",
+    cluster="mt1",
     ssl=True
 )
 
@@ -25,7 +27,6 @@ def get_db_connection():
 def index():
     return render_template("curso.html")
 
-# Ruta para manejar la creación y edición de cursos
 @app.route("/curso", methods=["GET", "POST"])
 def curso():
     if request.method == "POST":
@@ -75,6 +76,16 @@ def buscar():
 
     registros_list = [{"ID_Curso": r[0], "Nombre_Curso": r[1], "Telefono": r[2]} for r in registros]
     return jsonify(registros_list)
+
+
+@app.route("/eliminar_todos_cursos", methods=["POST"])
+def eliminar_todos_cursos():
+    con = get_db_connection()
+    cursor = con.cursor()
+    cursor.execute("DELETE FROM tst0_cursos")
+    con.commit()
+    con.close()
+    return jsonify({"message": "Todos los cursos fueron eliminados correctamente"})
 
 @app.route("/eliminar_curso", methods=["POST"])
 def eliminar_curso():
